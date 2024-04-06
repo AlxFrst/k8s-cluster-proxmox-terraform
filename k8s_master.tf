@@ -60,10 +60,6 @@ resource "proxmox_vm_qemu" "k8s_master" {
       "sudo rm /etc/containerd/config.toml",
       "sudo systemctl restart containerd",
       "sudo bash -c 'echo \"1\" > /proc/sys/net/ipv4/ip_forward'",
-
-      # EXECUTE THE JOIN COMMAND THE SCRIPT IS ON THE FIRST MASTER NODE
-
-
     ]
   }
 }

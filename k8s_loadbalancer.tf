@@ -60,6 +60,10 @@ provisioner "remote-exec" {
     # Create directories for the apps and tools
     "sudo mkdir apps",
     "sudo mkdir tools",
+    "sudo mkdir .kube",
+    "sudo chown -R ${var.vm_user}:${var.vm_user} .kube",
+
+    "until sudo snap install kubectl --classic; do echo 'snap install kubectl failed, retrying...'; sleep 5; done",
 
     # Add calico
     # Add metallb

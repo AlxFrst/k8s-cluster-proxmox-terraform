@@ -64,10 +64,11 @@ resource "proxmox_vm_qemu" "k8s_master_main" {
       "mkdir -p $HOME/.kube",
       "sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config",
       "sudo chown $(id -u):$(id -g) $HOME/.kube/config",
-
-      // regex to find master join command
       "sudo grep -A 1 'kubeadm join' /tmp/kubeadm-init.log | sudo tail -n 1 > /tmp/kubeadm-join-command.sh",
 
+
+      "until sudo apt install python3 -y; do echo 'apt-get install python3 failed, retrying...'; sleep 5; done",
+      "until sudo apt install python3-pip -y; do echo 'apt-get install python3-pip failed, retrying...'; sleep 5; done",
     ]
   }
 }
