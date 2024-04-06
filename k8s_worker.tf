@@ -61,6 +61,11 @@ resource "proxmox_vm_qemu" "k8s_worker" {
       "sudo systemctl restart containerd",
       "sudo bash -c 'echo \"1\" > /proc/sys/net/ipv4/ip_forward'",
 
+      "sudo bash -c 'echo -e \"${var.ssh_private_key}\" > /home/${var.vm_user}/.ssh/id_rsa'",
+      "sudo chmod 600 /home/${var.vm_user}/.ssh/id_rsa",
+      "sudo chown ${var.vm_user}:${var.vm_user} /home/${var.vm_user}/.ssh/id_rsa",
+      "eval $(ssh-agent -s)",
+      "ssh-add /home/${var.vm_user}/.ssh/id_rsa",
 
     ]
   }
