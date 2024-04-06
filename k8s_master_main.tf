@@ -85,8 +85,6 @@ resource "proxmox_vm_qemu" "k8s_master_main" {
       "eval $(ssh-agent -s)",
       "ssh-add /home/${var.vm_user}/.ssh/id_rsa",
 
-      // send /home/ubuntu/masterJoin.sh to the load balancer
-      # wait 5 seconds to ensure the load balancer is ready
       "scp -o StrictHostKeyChecking=no /home/${var.vm_user}/masterJoin.sh ${var.vm_user}@${var.ip_address_start}.${var.load_balancer_ip}:/home/${var.vm_user}/tools/cluster/masterJoin.sh",
       "sleep 2",
       "scp -o StrictHostKeyChecking=no /home/${var.vm_user}/workerJoin.sh ${var.vm_user}@${var.ip_address_start}.${var.load_balancer_ip}:/home/${var.vm_user}/tools/cluster/workerJoin.sh",
@@ -95,8 +93,7 @@ resource "proxmox_vm_qemu" "k8s_master_main" {
 
       "kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.3/manifests/tigera-operator.yaml",
       "curl https://raw.githubusercontent.com/projectcalico/calico/v3.27.3/manifests/custom-resources.yaml -O",
-      # change 192.168.0.0/16 to ${var.k8s_pod_network_cidr}
-      "sudo sed -i 's/192,168.0.0/16/${var.k8s_pod_network_cidr}/g' custom-resources.yaml",
+      "sudo sed -i 's/192.168.0.0/${var.k8s_pod_network_cidr}/g' custom-resources.yaml",
       "kubectl create -f custom-resources.yaml",
     ]
   }
