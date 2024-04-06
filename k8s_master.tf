@@ -12,7 +12,7 @@ resource "proxmox_vm_qemu" "k8s_master" {
   cpu                     = "host"
   memory                  = var.master_node_memory
   scsihw                  = "virtio-scsi-pci"
-  ipconfig0               = "ip=${var.ip_address_start}.${var.master_node_ip_start + 2 + count.index}/${var.ip_address_cidr},gw=${var.ip_address_gateway}"
+  ipconfig0               = "ip=${var.ip_address_start}.${var.master_node_ip_start + 1 + count.index}/${var.ip_address_cidr},gw=${var.ip_address_gateway}"
   ciuser                  = var.vm_user
   cipassword              = var.vm_password
   sshkeys                 = var.ssh_public_key
