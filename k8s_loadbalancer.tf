@@ -60,13 +60,9 @@ provisioner "remote-exec" {
     # Create directories for the apps and tools
     "sudo mkdir apps",
     "sudo mkdir tools",
-    "sudo apt-get install python3 -y",
-    "sudo apt-get install python3-pip -y",
-    "sudo apt-get install git -y",
-    "sudo apt-get install curl -y",
-    "sudo apt-get install wget -y",
-    "sudo apt-get install unzip -y",
+
+    # Add calico
+    # Add metallb
   ]
 }
-
 }
