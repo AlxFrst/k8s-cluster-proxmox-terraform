@@ -39,7 +39,7 @@ resource "proxmox_vm_qemu" "k8s_master_main" {
       private_key = var.ssh_private_key
       host        = self.ssh_host
     }
-    source = assets/joinExtractor.py
+    source = "assets/joinExtractor.py"
     destination = "/tmp/joinExtractor.py"
   }
 
@@ -71,23 +71,19 @@ resource "proxmox_vm_qemu" "k8s_master_main" {
       "sudo rm /etc/containerd/config.toml",
       "sudo systemctl restart containerd",
       "sudo bash -c 'echo \"1\" > /proc/sys/net/ipv4/ip_forward'",
-      "sudo kubeadm init --control-plane-endpoint \"${var.ip_address_start}.${var.load_balancer_ip}:6443\" --upload-certs --pod-network-cidr=$ | tee /tmp/kubeadm-init.log",
+      "sudo kubeadm init --control-plane-endpoint \"${var.ip_address_start}.${var.load_balancer_ip}:6443\" --upload-certs --pod-network-cidr=${var.ip_address_cidr} | tee /tmp/kubeadm-init.log",
       "mkdir -p $HOME/.kube",
       "sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config",
       "sudo chown $(id -u):$(id -g) $HOME/.kube/config",
-      "sudo grep -A 1 'kubeadm join' /tmp/kubeadm-init.log | sudo tail -n 1 > /tmp/kubeadm-join-command.sh",
       "until sudo apt install python3 -y; do echo 'apt-get install python3 failed, retrying...'; sleep 5; done",
       "until sudo apt install python3-pip -y; do echo 'apt-get install python3-pip failed, retrying...'; sleep 5; done",
-      "python3 /tmp/joinExtractor.py /tmp/kubeadm-join-command.sh",
+      "python3 /tmp/joinExtractor.py /tmp/kubeadm-init.log",
 
       "sudo bash -c 'echo -e \"${var.ssh_private_key}\" > /home/${var.vm_user}/.ssh/id_rsa'",
       "sudo chmod 600 /home/${var.vm_user}/.ssh/id_rsa",
       "sudo chown ${var.vm_user}:${var.vm_user} /home/${var.vm_user}/.ssh/id_rsa",
       "eval $(ssh-agent -s)",
       "ssh-add /home/${var.vm_user}/.ssh/id_rsa",
-
-      // send masterJoin.sh to the load balancer
-      "scp /tmp/masterJoin.sh ${var.vm_user}@${var.ip_address_start}.${var.load_balancer_ip}:/tmp/masterJoin.sh",
 
     ]
   }
