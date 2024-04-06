@@ -63,6 +63,8 @@ provisioner "remote-exec" {
     "sudo mkdir tools/cluster",
     "sudo mkdir .kube",
     "sudo chown -R ${var.vm_user}:${var.vm_user} .kube",
+    "sudo chown -R ${var.vm_user}:${var.vm_user} apps",
+    "sudo chown -R ${var.vm_user}:${var.vm_user} tools",
 
     "sudo mkdir .kube",
     "sudo chown -R ${var.vm_user}:${var.vm_user} .kube",

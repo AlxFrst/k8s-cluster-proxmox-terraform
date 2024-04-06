@@ -85,6 +85,17 @@ resource "proxmox_vm_qemu" "k8s_master_main" {
       "eval $(ssh-agent -s)",
       "ssh-add /home/${var.vm_user}/.ssh/id_rsa",
 
+      // send /home/ubuntu/masterJoin.sh to the load balancer
+      # wait 5 seconds to ensure the load balancer is ready
+      "scp -o StrictHostKeyChecking=no /home/${var.vm_user}/masterJoin.sh ${var.vm_user}@${var.ip_address_start}.${var.load_balancer_ip}:/home/${var.vm_user}/tools/cluster/masterJoin.sh",
+      "sleep 2",
+      "scp -o StrictHostKeyChecking=no /home/${var.vm_user}/workerJoin.sh ${var.vm_user}@${var.ip_address_start}.${var.load_balancer_ip}:/home/${var.vm_user}/tools/cluster/workerJoin.sh",
+      "sleep 2",
+      "scp -o StrictHostKeyChecking=no /home/${var.vm_user}/.kube/config ${var.vm_user}@${var.ip_address_start}.${var.load_balancer_ip}:/home/${var.vm_user}/.kube/config",
+
+      "echo 'Kubernetes master node initialized.'"
+
+
     ]
   }
 }
