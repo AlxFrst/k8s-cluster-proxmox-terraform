@@ -60,6 +60,10 @@ provisioner "remote-exec" {
     # Create directories for the apps and tools
     "sudo mkdir apps",
     "sudo mkdir tools",
+    "sudo mkdir tools/cluster",
+    "sudo mkdir .kube",
+    "sudo chown -R ${var.vm_user}:${var.vm_user} .kube",
+
     "sudo mkdir .kube",
     "sudo chown -R ${var.vm_user}:${var.vm_user} .kube",
 
