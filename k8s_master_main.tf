@@ -60,7 +60,7 @@ resource "proxmox_vm_qemu" "k8s_master_main" {
       "sudo rm /etc/containerd/config.toml",
       "sudo systemctl restart containerd",
       "sudo bash -c 'echo \"1\" > /proc/sys/net/ipv4/ip_forward'",
-      "sudo kubeadm init --control-plane-endpoint \"${var.ip_address_start}.${var.load_balancer_ip}:6443\" --upload-certs --pod-network-cidr=10.244.0.0/16 | tee /tmp/kubeadm-init.log",
+      "sudo kubeadm init --control-plane-endpoint \"${var.ip_address_start}.${var.load_balancer_ip}:6443\" --upload-certs --pod-network-cidr=$ | tee /tmp/kubeadm-init.log",
       "mkdir -p $HOME/.kube",
       "sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config",
       "sudo chown $(id -u):$(id -g) $HOME/.kube/config",

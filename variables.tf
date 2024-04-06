@@ -101,6 +101,12 @@ variable "k8s_storage_nodes" {
   type        = number
 }
 
+variable "k8s_pod_network_cidr" {
+  description = "CIDR for the Kubernetes pod network."
+  type        = string
+  default     = "10.244.0.0/16"
+}
+
 variable "load_balancer_cpu" {
     description = "Number of CPUs for the load balancer."
     type        = number
