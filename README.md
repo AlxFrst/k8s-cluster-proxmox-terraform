@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/PKief/vscode-material-icon-theme/ec559a9f6bfd399b82bb44393651661b08aaf7ba/icons/folder-markdown-open.svg" width="100" alt="project-logo">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Kubernetes_logo_without_workmark.svg/2109px-Kubernetes_logo_without_workmark.svg.png" width="100" alt="project-logo">
 </p>
 <p align="center">
     <h1 align="center">K8S-CLUSTER-PROXMOX-TERRAFORM</h1>
@@ -110,7 +110,7 @@ The k8s-cluster-proxmox-terraform project orchestrates the deployment of a Kuber
 
 * **Terraform**: `version x.y.z`
 
-###  Installation
+###  Installation & Usage
 
 <h4>From <code>source</code></h4>
 
@@ -129,30 +129,22 @@ The k8s-cluster-proxmox-terraform project orchestrates the deployment of a Kuber
 > ```console
 > $ terraform init
 > ```
-
-###  Usage
-
-<h4>From <code>source</code></h4>
-
-> Run k8s-cluster-proxmox-terraform using the command below:
+> 4. Copy the `prod.tfvars.exemple` file to `prod.tfvars` and fill in the necessary configuration details.
 > ```console
-> $ terraform apply
+> $ cp configurations/prod.tfvars.exemple configurations/prod.tfvars
 > ```
-
-###  Tests
-
-> Run the test suite using the command below:
+> 5. Plan the Terraform deployment:
 > ```console
-> $ Insert test command.
+> $ terraform plan -var-file=configurations/prod.tfvars
 > ```
-
----
-
-##  Project Roadmap
-
-- [X] `► INSERT-TASK-1`
-- [ ] `► INSERT-TASK-2`
-- [ ] `► ...`
+> 6. If the plan looks good, apply the Terraform configuration:
+> ```console
+> $ terraform apply -var-file=configurations/prod.tfvars
+> ```
+> 7. After the deployment is complete, access the Kubernetes cluster by the Load Balancer IP address and check the nodes:
+> ```console
+> $ kubectl get nodes
+> ```
 
 ---
 
@@ -198,19 +190,3 @@ Contributions are welcome! Here are several ways you can contribute:
    </a>
 </p>
 </details>
-
----
-
-##  License
-
-This project is protected under the [SELECT-A-LICENSE](https://choosealicense.com/licenses) License. For more details, refer to the [LICENSE](https://choosealicense.com/licenses/) file.
-
----
-
-##  Acknowledgments
-
-- List any resources, contributors, inspiration, etc. here.
-
-[**Return**](#-overview)
-
----
