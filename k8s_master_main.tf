@@ -39,7 +39,7 @@ resource "proxmox_vm_qemu" "k8s_master_main" {
       private_key = var.ssh_private_key
       host        = self.ssh_host
     }
-    source = "assets/joinExtractor.py"
+    source      = "assets/joinExtractor.py"
     destination = "/tmp/joinExtractor.py"
   }
 
