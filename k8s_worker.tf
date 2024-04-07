@@ -71,7 +71,6 @@ resource "proxmox_vm_qemu" "k8s_worker" {
       "scp -o StrictHostKeyChecking=no ${var.vm_user}@${var.ip_address_start}.${var.load_balancer_ip}:/home/${var.vm_user}/tools/cluster/workerJoin.sh /tmp/workerJoin.sh",
       "sudo chmod +x /tmp/workerJoin.sh",
       "sudo bash /tmp/workerJoin.sh"
-
     ]
   }
 }
