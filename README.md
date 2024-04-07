@@ -107,7 +107,11 @@ The k8s-cluster-proxmox-terraform project orchestrates the deployment of a Kuber
 
 **System Requirements:**
 
-* **Terraform**: `version x.y.z`
+* **Terraform**: `1.6.4`
+* **Proxmox**: `8.1.3`
+
+### Before you begin
+Prepare a cloud-init template on your Proxmox server. You can use the following repository to create a cloud-init template: [Proxmox Cloud-Init Imager](https://github.com/AlxFrst/Proxmox-cloudinit-imager)
 
 ###  Installation & Usage
 
