@@ -86,6 +86,12 @@ variable "vm_cloudinit_storage" {
   type        = string
 }
 
+variable "k8s_version" {
+  description = "Version of Kubernetes to install."
+  type        = string
+  default     = "1.29"
+}
+
 variable "k8s_master_nodes" {
   description = "Number of Kubernetes master nodes. Does not include the main node."
   type        = number
