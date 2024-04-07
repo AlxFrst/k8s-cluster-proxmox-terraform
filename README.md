@@ -8,7 +8,6 @@
     <em>Orchestrating scalability, networking, and storage with ease.</em>
 </p>
 <p align="center">
-	<img src="https://img.shields.io/github/license/AlxFrst/k8s-cluster-proxmox-terraform?style=default&logo=opensourceinitiative&logoColor=white&color=0080ff" alt="license">
 	<img src="https://img.shields.io/github/last-commit/AlxFrst/k8s-cluster-proxmox-terraform?style=default&logo=git&logoColor=white&color=0080ff" alt="last-commit">
 	<img src="https://img.shields.io/github/languages/top/AlxFrst/k8s-cluster-proxmox-terraform?style=default&color=0080ff" alt="repo-top-language">
 	<img src="https://img.shields.io/github/languages/count/AlxFrst/k8s-cluster-proxmox-terraform?style=default&color=0080ff" alt="repo-language-count">
