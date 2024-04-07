@@ -73,20 +73,4 @@ resource "proxmox_vm_qemu" "k8s_master" {
       "sudo bash /tmp/masterJoin.sh"
     ]
   }
-
-  provisioner "remote-exec" {
-    when = destroy
-    connection {
-      type        = "ssh"
-      user        = var.vm_user
-      private_key = var.ssh_private_key
-      # connect to the load balancer
-      host = "${var.ip_address_start}.${var.load_balancer_ip}"
-    }
-    inline = [
-      "kubectl delete node ${var.vm_name_prefix}-master-${count.index + 2}",
-    ]
-  }
 }
-
-
