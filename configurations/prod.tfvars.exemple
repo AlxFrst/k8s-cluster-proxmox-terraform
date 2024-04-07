@@ -1,8 +1,8 @@
 # Proxmox variables
-proxmox_api_url="https://xxxxxx/api2/json" # The URL of the Proxmox API
+proxmox_api_url="https://xxxxxxx/api2/json" # The URL of the Proxmox API
 proxmox_token_id="root@pam!terraform" # The token ID
-proxmox_token_secret="xxxxxxxx" # The token secret
-proxmox_node_name="pve1" # The name of the Proxmox node
+proxmox_token_secret="xxxxxxx" # The token secret
+proxmox_node_name="pve01" # The name of the Proxmox node
 proxmox_storage_name="local-lvm" # The name of the Proxmox storage
 proxmox_bridge_name="vmbr0" # The name of the Proxmox bridge
 proxmox_tls_insecure=true # Whether to ignore TLS errors
@@ -12,7 +12,7 @@ ip_address_start="192.168.1" # The first three octets of the IP address
 ip_address_gateway="192.168.1.1" # The gateway IP address
 ip_address_cidr="24" # The CIDR notation of the IP address
 
-# ssh key (copy the content of your public and private key in one line with \n at the end of each line)
+# ssh key (Add your private key in one line replace new lines with \n)
 ssh_private_key=""
 ssh_public_key=""
 
@@ -24,9 +24,10 @@ vm_password="ubuntu" # The password of the virtual machine
 vm_cloudinit_storage="local-lvm" # The storage where the cloud-init configuration will be stored
 
 # Cluster configuration
-k8s_master_nodes= 2 # Number of master nodes (the main node is always the first one and not included in this number, so if you want 3 master nodes, you should put 2 here)
-k8s_worker_nodes= 3 # Number of worker nodes (recommended 3 or more for production environments)
-k8s_storage_nodes= 0yes # Number of storage nodes (if you don't want storage nodes, put 0 here)
+k8s_version= "1.29" # The version of Kubernetes
+k8s_master_nodes= 1 # Number of master nodes (the main node is always the first one and not included in this number, so if you want 3 master nodes, you should put 2 here)
+k8s_worker_nodes= 2 # Number of worker nodes (recommended 3 or more for production environments)
+k8s_storage_nodes= 1 # Number of storage nodes (if you don't want storage nodes, put 0 here)
 k8s_pod_network_cidr= "10.244.0.0" # The CIDR notation of the pod network
 
 # Load balancer configuration
@@ -34,14 +35,14 @@ load_balancer_cpu= 2 # Number of CPUs
 load_balancer_socket= 1 # Number of sockets
 load_balancer_memory= 2048 # Memory in MB
 load_balancer_disk= 30 # Disk size in GB
-load_balancer_ip= 121 # IP address of the load balancer (this will be 192.168.1.120/24)
+load_balancer_ip= 121 # IP address of the load balancer (this will be 192.168.1.121/24)
 
 # Master node configuration
 master_node_cpu= 4# Number of CPUs
 master_node_socket= 1 # Number of sockets
 master_node_memory= 4096# Memory in MB
 master_node_disk= 30 # Disk size in GB
-master_node_ip_start= 122 # IP address of the first master node (this will be 192.168.1.121/24, the next one will be 192.168.1.122/24, and so on)
+master_node_ip_start= 122 # IP address of the first master node (this will be 192.168.1.122/24, the next one will be 192.168.1.123/24, and so on)
 
 # Worker node configuration
 worker_node_cpu= 4 # Number of CPUs
