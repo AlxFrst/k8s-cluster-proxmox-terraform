@@ -115,33 +115,33 @@ Prepare a cloud-init template on your Proxmox server. You can use the following 
 > 1. Clone the k8s-cluster-proxmox-terraform repository:
 >
 > ```console
-> $ git clone https://github.com/AlxFrst/k8s-cluster-proxmox-terraform
+> git clone https://github.com/AlxFrst/k8s-cluster-proxmox-terraform
 > ```
 >
 > 2. Change to the project directory:
 > ```console
-> $ cd k8s-cluster-proxmox-terraform
+> cd k8s-cluster-proxmox-terraform
 > ```
 >
 > 3. Install the dependencies:
 > ```console
-> $ terraform init
+> terraform init
 > ```
 > 4. Copy the `prod.tfvars.exemple` file to `prod.tfvars` and fill in the necessary configuration details.
 > ```console
-> $ cp configurations/prod.tfvars.exemple configurations/prod.tfvars
+> cp configurations/prod.tfvars.exemple configurations/prod.tfvars
 > ```
 > 5. Plan the Terraform deployment:
 > ```console
-> $ terraform plan -var-file=configurations/prod.tfvars
+> terraform plan -var-file=configurations/prod.tfvars
 > ```
 > 6. If the plan looks good, apply the Terraform configuration:
 > ```console
-> $ terraform apply -var-file=configurations/prod.tfvars
+> terraform apply -var-file=configurations/prod.tfvars
 > ```
 > 7. After the deployment is complete, access the Kubernetes cluster by the Load Balancer IP address and check the nodes:
 > ```console
-> $ kubectl get nodes
+> kubectl get nodes
 > ```
 
 ---
