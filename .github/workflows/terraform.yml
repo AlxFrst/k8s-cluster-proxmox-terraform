@@ -1,4 +1,4 @@
-name: Terraform Planner
+name: Terraform Validation
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main # ou votre branche cible
 
 jobs:
-  terraform_plan:
+  terraform_validation:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -18,12 +18,14 @@ jobs:
         terraform_version: 1.6.4
 
     - name: Terraform Init
-      run: terraform init
+      run: terraform init -backend=false # Initialiser sans backend pour la validation
 
-    - name: Create temp_prod.tfvars from GitHub Secret
+    - name: Terraform Validate
+      run: terraform validate
+
+    - name: Install TFLint
       run: |
-        echo "${{ secrets.TFVARS_PROD }}" | base64 --decode > temp_prod.tfvars
+        curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
 
-
-    - name: Terraform Plan
-      run: terraform plan -var-file="temp_prod.tfvars"
+    - name: Terraform Lint
+      run: tflint
