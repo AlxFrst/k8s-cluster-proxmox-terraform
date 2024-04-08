@@ -43,6 +43,7 @@ resource "proxmox_vm_qemu" "k8s_master" {
       "until sudo apt-get update; do echo 'apt-get update failed, retrying...'; sleep 5; done",
       "sudo swapoff -a",
       "until sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common nfs-common; do echo 'apt-get install failed, retrying...'; sleep 5; done",
+      "sudo mkdir -p -m 755 /etc/apt/keyrings",
       "sudo bash -c 'echo \"deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v${var.k8s_version}/deb/ /\" > /etc/apt/sources.list.d/kubernetes.list'",
       "sudo curl -fsSL https://pkgs.k8s.io/core:/stable:/v${var.k8s_version}/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg",
       "until sudo apt-get update -y; do echo 'apt-get update failed, retrying...'; sleep 5; done",
@@ -71,6 +72,10 @@ resource "proxmox_vm_qemu" "k8s_master" {
       "scp -o StrictHostKeyChecking=no ${var.vm_user}@${var.ip_address_start}.${var.load_balancer_ip}:/home/${var.vm_user}/tools/cluster/masterJoin.sh /tmp/masterJoin.sh",
       "sudo chmod +x /tmp/masterJoin.sh",
       "sudo bash /tmp/masterJoin.sh"
+
     ]
   }
+  // TODO: Add the name and ip adress to the HAProxy configuration
+  // TODO: On destroy, remove the name and ip adress from the HAProxy configuration
+  // TODO: On destroy, remove the master node from the Kubernetes cluster
 }

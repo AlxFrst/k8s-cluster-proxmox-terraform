@@ -65,4 +65,5 @@ resource "proxmox_vm_qemu" "k8s_storage" {
         "helm install nfs-subdir-external-provisioner-storage-${count.index + 1} nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=${self.ssh_host} --set nfs.path=/mnt/nfs-share --set storageClass.name=nfs-client-storage-${count.index + 1} --set storageClass.archiveOnDelete=false --set storageClass.onDelete=delete",
     ]
   }
+  // TODO: On destroy, remove the storageClass and the provisioner from the cluster
 }
