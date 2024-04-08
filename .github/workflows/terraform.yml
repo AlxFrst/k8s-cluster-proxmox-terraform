@@ -21,7 +21,9 @@ jobs:
       run: terraform init
 
     - name: Create temp_prod.tfvars from GitHub Secret
-      run: echo "${{ secrets.TFVARS_PROD }}" > temp_prod.tfvars
+      run: |
+        echo "${{ secrets.TFVARS_PROD }}" > temp_prod.tfvars
+
 
     - name: Terraform Plan
       run: terraform plan -var-file="temp_prod.tfvars"
