@@ -22,7 +22,7 @@ jobs:
 
     - name: Create temp_prod.tfvars from GitHub Secret
       run: |
-        echo "${{ secrets.TFVARS_PROD }}" > temp_prod.tfvars
+        echo "${{ secrets.TFVARS_PROD }}" | base64 --decode > temp_prod.tfvars
 
 
     - name: Terraform Plan
