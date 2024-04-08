@@ -3,7 +3,6 @@ proxmox_api_url="https://xxxxxxx/api2/json" # The URL of the Proxmox API
 proxmox_token_id="root@pam!terraform" # The token ID
 proxmox_token_secret="xxxxxxx" # The token secret
 proxmox_node_name="pve01" # The name of the Proxmox node
-proxmox_storage_name="local-lvm" # The name of the Proxmox storage
 proxmox_bridge_name="vmbr0" # The name of the Proxmox bridge
 proxmox_tls_insecure=true # Whether to ignore TLS errors
 

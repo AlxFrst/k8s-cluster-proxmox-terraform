@@ -24,11 +24,6 @@ variable "proxmox_node_name" {
   type        = string
 }
 
-variable "proxmox_storage_name" {
-  description = "Name of the Proxmox storage to use for VM creation."
-  type        = string
-}
-
 variable "proxmox_bridge_name" {
   description = "Name of the Proxmox bridge to use for VM creation."
   type        = string
