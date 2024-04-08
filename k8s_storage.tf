@@ -60,10 +60,12 @@ resource "proxmox_vm_qemu" "k8s_storage" {
       host        = "${var.ip_address_start}.${var.master_node_ip_start}"
     }
     inline = [
+        // create a namespace for all the storage classes if it doesn't exist
+        "kubectl create ns storage-classes",
         "if [ ! -f /usr/local/bin/helm ]; then curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3; chmod 700 get_helm.sh; ./get_helm.sh; fi",
         "helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner",
         "helm repo update",
-        "helm install nfs-subdir-external-provisioner-storage-${count.index + 1} nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=${self.ssh_host} --set nfs.path=/mnt/nfs-share --set storageClass.name=nfs-client-storage-${count.index + 1} --set storageClass.archiveOnDelete=false --set storageClass.onDelete=delete",
+        "helm install nfs-subdir-external-provisioner-storage-${count.index + 1} nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=${self.ssh_host} --set nfs.path=/mnt/nfs-share --set storageClass.name=nfs-client-storage-${count.index + 1} --set storageClass.archiveOnDelete=false --set storageClass.onDelete=delete --namespace storage-classes",
     ]
   }
   // TODO: On destroy, remove the storageClass and the provisioner from the cluster

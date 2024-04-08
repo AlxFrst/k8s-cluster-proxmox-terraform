@@ -92,4 +92,5 @@ resource "proxmox_vm_qemu" "k8s_master" {
   }
   // TODO: On destroy, remove the name and ip adress from the HAProxy configuration
   // TODO: On destroy, remove the master node from the Kubernetes cluster
+
 }
