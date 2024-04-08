@@ -1,3 +1,9 @@
+variable "module_version" {
+  description = "Version of the Terraform Alx module."
+  type        = string
+  default     = "1.0"
+}
+
 variable "proxmox_api_url" {
   description = "URL for the Proxmox API."
   type        = string
