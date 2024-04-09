@@ -17,6 +17,13 @@ jobs:
       with:
         terraform_version: 1.6.4
 
+    - name: Create temp_backend.tf from GitHub Secret
+      run: |
+        echo "${{ secrets.BACKEND_PROD }}" | base64 --decode > temp_backend.tf
+
+    - name: Terraform Init
+      run: terraform init -backend-config="temp_backend.tf"
+
     - name: Terraform Validate
       run: terraform validate
 
@@ -30,13 +37,6 @@ jobs:
     - name: Create temp_prod.tfvars from GitHub Secret
       run: |
         echo "${{ secrets.TFVARS_PROD }}" | base64 --decode > temp_prod.tfvars
-
-    - name: Create temp_backend.tf from GitHub Secret
-      run: |
-        echo "${{ secrets.BACKEND_PROD }}" | base64 --decode > temp_backend.tf
-
-    - name: Terraform Init
-      run: terraform init -backend-config="temp_backend.tf"
 
     - name: Terraform Plan
       run: terraform plan -var-file="temp_prod.tfvars"
