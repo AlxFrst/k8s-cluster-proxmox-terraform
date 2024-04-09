@@ -29,3 +29,9 @@ jobs:
 
     - name: Terraform Lint
       run: tflint
+
+    - name: Decode prod.tfvars
+      run: echo "${{ secrets.PROD_TFVARS }}" | base64 -d > prod.tfvars
+    
+    - name: Run Terraform Plan
+      run: terraform plan -var-file=prod.tfvars
