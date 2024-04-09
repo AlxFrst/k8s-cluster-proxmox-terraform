@@ -1,11 +1,5 @@
 terraform {
-  backend "s3" {
-    region     = "main"
-
-    skip_credentials_validation = true
-    skip_metadata_api_check     = true
-    force_path_style            = true # Important pour MinIO
-  }
+  backend "s3" {}
   required_providers {
     proxmox = {
       source  = "Telmate/proxmox"

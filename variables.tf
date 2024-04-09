@@ -34,32 +34,6 @@ variable "proxmox_tls_insecure" {
   type        = bool
 }
 
-variable "backend_endpoint" {
-  description = "Endpoint for the Terraform backend."
-  type        = string
-}
-
-variable "backend_bucket" {
-  description = "Name of the bucket for the Terraform backend."
-  type        = string
-}
-
-variable "backend_key" {
-  description = "Key for the Terraform backend."
-  type        = string
-  default     = "terraform.tfstate"
-}
-
-variable "backend_access_key" {
-  description = "Access key for the Terraform backend."
-  type        = string
-}
-
-variable "backend_secret_key" {
-  description = "Secret key for the Terraform backend."
-  type        = string
-}
-
 variable "ip_address_start" {
   description = "Starting IP address for the VMs."
   type        = string
