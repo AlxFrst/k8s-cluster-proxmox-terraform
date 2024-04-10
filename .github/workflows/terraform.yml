@@ -31,6 +31,8 @@ jobs:
         sleep 10
         curl --silent --fail http://ifconfig.io/ip
         echo "VPN Connection Successful"
+        exit 0
+
 
   terraform_validation:
     name: Terraform Validation
