@@ -6,7 +6,6 @@ terraform {
       version = "3.0.1-rc1"
     }
   }
-  required_version = "1.6.4"
 }
 
 provider "proxmox" {

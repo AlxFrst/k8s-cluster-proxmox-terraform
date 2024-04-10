@@ -1,19 +1,7 @@
-# Proxmox variables
-proxmox_api_url="https://xxxxxxx/api2/json" # The URL of the Proxmox API
-proxmox_token_id="root@pam!terraform" # The token ID
-proxmox_token_secret="xxxxxxx" # The token secret
-proxmox_node_name="pve01" # The name of the Proxmox node
-proxmox_bridge_name="vmbr0" # The name of the Proxmox bridge
-proxmox_tls_insecure=true # Whether to ignore TLS errors
-
 # Network variables
 ip_address_start="192.168.1" # The first three octets of the IP address
 ip_address_gateway="192.168.1.1" # The gateway IP address
 ip_address_cidr="24" # The CIDR notation of the IP address
-
-# ssh key (Add your private key in one line replace new lines with \n)
-ssh_private_key=""
-ssh_public_key=""
 
 # Virtual machine variables
 vm_template_name="ubuntu-2004-cloudinit" #Please use a cloud-init template
@@ -23,7 +11,7 @@ vm_password="ubuntu" # The password of the virtual machine
 vm_cloudinit_storage="local-lvm" # The storage where the cloud-init configuration will be stored
 
 # Cluster configuration
-k8s_version= "1.29" # The version of Kubernetes
+k8s_version= "1.28" # The version of Kubernetes
 k8s_master_nodes= 1 # Number of master nodes (the main node is always the first one and not included in this number, so if you want 3 master nodes, you should put 2 here)
 k8s_worker_nodes= 2 # Number of worker nodes (recommended 3 or more for production environments)
 k8s_storage_nodes= 1 # Number of storage nodes (if you don't want storage nodes, put 0 here)
@@ -54,5 +42,5 @@ worker_node_ip_start= 130 # IP address of the first worker node (this will be 19
 storage_node_cpu= 2 # Number of CPUs
 storage_node_socket= 1 # Number of sockets
 storage_node_memory= 2048 # Memory in MB
-storage_node_disk= 30 # Disk size in GB
+storage_node_disk= 200 # Disk size in GB
 storage_node_ip_start= 140 # IP address of the first storage node (this will be 192.168.1.140/24, the next one will be 192.168.1.131/24, and so on)
