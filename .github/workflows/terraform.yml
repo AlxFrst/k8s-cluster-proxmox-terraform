@@ -7,7 +7,6 @@ on:
 
 jobs:
   terraform_validation:
-    name: Terraform Validation
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -45,3 +44,7 @@ jobs:
 
     - name: Terraform Plan
       run: terraform plan -var-file="secrets_prod.tfvars" -var-file="configurations/prod.tfvars"
+
+    - name: End of the job
+      run: |
+        echo "Job is done"
