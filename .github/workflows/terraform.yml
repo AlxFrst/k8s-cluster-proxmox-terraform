@@ -20,7 +20,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install openvpn -y
-        sudo openvpn --config certificate.ovpn
+        sudo openvpn --config certificate.ovpn --daemon
         echo "Connected to VPN"
 
     - name: Setup Terraform
