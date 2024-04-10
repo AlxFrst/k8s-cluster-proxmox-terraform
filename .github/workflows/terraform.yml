@@ -45,12 +45,3 @@ jobs:
 
     - name: Terraform Plan
       run: terraform plan -var-file="secrets_prod.tfvars" -var-file="configurations/prod.tfvars"
-
-    # send github issue with information about the plan
-    - name: Send GitHub Issue
-      uses: peter-evans/create-issue-from-file@v2
-      with:
-        title: Terraform Plan
-        content-file: plan.txt
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
