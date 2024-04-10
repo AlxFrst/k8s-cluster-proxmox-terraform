@@ -19,7 +19,7 @@ jobs:
     - name: Connect to openVPN
       run: |
         sudo apt-get update
-        sudo apt-get install openvpn
+        sudo apt-get install openvpn -y
         sudo openvpn --config certificate.ovpn
 
     - name: Setup Terraform
