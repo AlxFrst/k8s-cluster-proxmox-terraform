@@ -48,3 +48,19 @@ jobs:
 
     - name: Terraform Plan
       run: terraform plan -var-file="secrets_prod.tfvars" -var-file="configurations/prod.tfvars"
+
+    - name: Check for changes
+      id: check_changes
+      run: |
+        if grep -q 'Plan:' plan-output.txt; then
+          echo "changes_detected=true" >> $GITHUB_ENV
+        fi
+
+    - name: Create Issue if changes are detected
+      if: env.changes_detected == 'true'
+      uses: peter-evans/create-issue-from-file@v4
+      with:
+        token: ${{ secrets.GH_TOKEN }}
+        title: "Des modifications Terraform détectées"
+        content-filepath: ./plan-output.txt
+        labels: modifications, terraform
