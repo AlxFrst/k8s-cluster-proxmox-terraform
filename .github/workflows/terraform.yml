@@ -6,9 +6,36 @@ on:
       - main # ou votre branche cible
 
 jobs:
+  check_vpn:
+    name: Check VPN
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Create certificate.ovpn from GitHub Secret
+      run: |
+        echo "${{ secrets.VPN_CERTIFICATE_PROD }}" | base64 --decode > certificate.ovpn
+        
+    - name: Install OpenVPN
+      run: |
+        sudo apt update
+        sudo apt install -y openvpn openvpn-systemd-resolved
+
+    - name: Connect to VPN
+      run: |
+        sudo openvpn --config certificate.ovpn --daemon
+
+    - name: Check VPN Connection
+      run: |
+        sleep 10
+        curl --silent --fail http://ifconfig.io/ip
+        echo "VPN Connection Successful"
+
   terraform_validation:
     name: Terraform Validation
     runs-on: ubuntu-latest
+    needs: check_vpn
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
