@@ -11,18 +11,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Create certificate.ovpn from GitHub Secret
       run: |
         echo "${{ secrets.VPN_CERTIFICATE_PROD }}" | base64 --decode > certificate.ovpn
         
-    - name: Connect to openVPN
+    - name: Install OpenVPN
       run: |
-        sudo apt-get update
-        sudo apt-get install openvpn -y
-        sudo openvpn --config certificate.ovpn --daemon
-        echo "Connected to VPN"
+        sudo apt update
+        sudo apt install -y openvpn openvpn-systemd-resolved
+
+    - name: Connect to VPN
+      uses: "kota65535/github-openvpn-connect-action@v2"
+      with:
+        config_file: certificate.ovpn
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
@@ -45,19 +48,3 @@ jobs:
 
     - name: Terraform Plan
       run: terraform plan -var-file="secrets_prod.tfvars" -var-file="configurations/prod.tfvars"
-
-    - name: Check for changes
-      id: check_changes
-      run: |
-        if grep -q 'Plan:' plan-output.txt; then
-          echo "changes_detected=true" >> $GITHUB_ENV
-        fi
-
-    - name: Create Issue if changes are detected
-      if: env.changes_detected == 'true'
-      uses: peter-evans/create-issue-from-file@v4
-      with:
-        token: ${{ secrets.GH_TOKEN }}
-        title: "Des modifications Terraform détectées"
-        content-filepath: ./plan-output.txt
-        labels: modifications, terraform
