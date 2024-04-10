@@ -40,3 +40,4 @@ terraform.rc
 .DS_Store
 configurations/secrets.tfvars
 configurations/backend.tfvars
+.terraform.lock.hcl

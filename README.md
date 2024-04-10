@@ -108,7 +108,7 @@ The k8s-cluster-proxmox-terraform project orchestrates the deployment of a Kuber
 ### Before you begin
 Prepare a cloud-init template on your Proxmox server. You can use the following repository to create a cloud-init template: [Proxmox Cloud-Init Imager](https://github.com/AlxFrst/Proxmox-cloudinit-imager)
 
-###  Installation & Usage with Terraform on your local environment
+###  Installation & Usage with Terraform on your local environment (Perfect for fast deployment)
 
 <h4>From <code>source</code></h4>
 
@@ -123,8 +123,9 @@ Prepare a cloud-init template on your Proxmox server. You can use the following 
 > cd k8s-cluster-proxmox-terraform
 > ```
 >
-> 3. Install the dependencies:
+> 3. Install the dependencies and remove the line `backend "s3" {}` from the `main.tf` file.
 > ```console
+> [IMPORTANT] remove the line `backend "s3" {}` from the `main.tf` file.
 > terraform init
 > ```
 > 4. Copy the `secrets.tfvars.exemple` file to `secrets.tfvars` and fill in the necessary configuration details.
@@ -145,7 +146,11 @@ Prepare a cloud-init template on your Proxmox server. You can use the following 
 > kubectl get nodes
 > ```
 
-###  Installation & Usage with Terraform using Github Actions
+###  Installation & Deploy with Terraform using Github Actions (Perfect for CI/CD and continuous deployment)
+#### Advantages
+* **Automated Deployment**: Github Actions automates the deployment process, ensuring consistency and reliability.
+* **Version Control**: Changes to the Terraform configuration are versioned and tracked in the repository.
+* **Scalability**: Easily scale the Kubernetes cluster by modifying the Terraform configuration and triggering the Github Actions workflow.
 <!-- requirement section -->
 #### Requirements
 * **MinIO Server**: To store the Terraform state file, you need a MinIO server.

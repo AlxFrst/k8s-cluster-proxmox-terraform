@@ -1,4 +1,4 @@
-name: Terraform Validation
+name: Validation et Application Terraform
 
 on:
   push:
@@ -6,48 +6,72 @@ on:
       - main # ou votre branche cible
 
 jobs:
-  terraform_validation:
+  setup_vpn:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Create certificate.ovpn from GitHub Secret
-      run: |
-        echo "${{ secrets.VPN_CERTIFICATE_PROD }}" | base64 --decode > certificate.ovpn
-        
-    - name: Connect to openVPN
-      run: |
-        sudo apt-get update
-        sudo apt-get install openvpn -y
-        sudo openvpn --config certificate.ovpn --daemon
-        echo "Connected to VPN"
+      - name: Create certificate.ovpn from GitHub Secret
+        run: |
+          echo "${{ secrets.VPN_CERTIFICATE_PROD }}" | base64 --decode > certificate.ovpn
+          
+      - name: Connect to openVPN
+        run: |
+          sudo apt-get update
+          sudo apt-get install openvpn -y
+          sudo openvpn --config certificate.ovpn --daemon
+          echo "Connected to VPN"
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 1.7.3
+  terraform_setup:
+    needs: setup_vpn
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.7.3
 
-    - name: Create temp_backend.tfvars from GitHub Secret
-      run: |
-        echo "${{ secrets.BACKEND_PROD }}" | base64 --decode > temp_backend.tfvars
+      - name: Create temp_backend.tfvars from GitHub Secret
+        run: |
+          echo "${{ secrets.BACKEND_PROD }}" | base64 --decode > temp_backend.tfvars
 
-    - name: Terraform Init
-      run: terraform init -backend-config="temp_backend.tfvars" -reconfigure
+      - name: Terraform Init
+        run: terraform init -backend-config="temp_backend.tfvars" -reconfigure
 
-    - name: Terraform Validate
-      run: terraform validate
+      - name: Terraform Validate
+        run: terraform validate
 
-    - name: Create secrets_prod.tfvars from GitHub Secret
-      run: |
-        echo "${{ secrets.SECRETS_PROD }}" | base64 --decode > secrets_prod.tfvars
+  terraform_plan:
+    needs: terraform_setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create secrets_prod.tfvars from GitHub Secret
+        run: |
+          echo "${{ secrets.SECRETS_PROD }}" | base64 --decode > secrets_prod.tfvars
 
-    - name: Terraform Plan
-      run: terraform plan -var-file="secrets_prod.tfvars" -var-file="configurations/prod.tfvars"
+      - name: Terraform Plan
+        run: terraform plan -var-file="secrets_prod.tfvars" -var-file="configurations/prod.tfvars"
 
-    - name: Terraform Apply
-      run: terraform apply -auto-approve -var-file="secrets_prod.tfvars" -var-file="configurations/prod.tfvars"
+      - name: Manual Trigger for Terraform Apply
+        uses: actions/github-script@v3
+        with:
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Le plan Terraform est prêt. Pour appliquer, ajoutez un commentaire `/terraform apply`.'
+            })
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-    - name: End of the job
-      run: |
-        echo "Job is done"
+  terraform_apply:
+    needs: terraform_plan
+    if: github.event.comment.body == '/terraform apply'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Terraform Apply
+        run: terraform apply -var-file="secrets_prod.tfvars" -var-file="configurations/prod.tfvars" -auto-approve
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
