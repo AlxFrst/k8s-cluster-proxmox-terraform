@@ -146,6 +146,12 @@ Prepare a cloud-init template on your Proxmox server. You can use the following 
 > ```
 
 ###  Installation & Usage with Terraform using Github Actions
+<!-- requirement section -->
+#### Requirements
+* **MinIO Server**: To store the Terraform state file, you need a MinIO server.
+* **OpenVPN Server**: To access the Proxmox API, you need an OpenVPN server, you can use the script in tools/openvpnInstall.sh to install an OpenVPN server on a Ubuntu server. (Don't forget to open the port 1194 on your firewall)
+
+
 > 1. Fork the repository to your Github account.
 > 2. Create a new repository secret with the name `SECRETS_PROD` and the content of your `secrets.tfvars` in base64.
 > 3. Setup a MinOI server follwing the official documentation: [MinIO Quickstart Guide](https://docs.min.io/docs/minio-quickstart-guide.html)
