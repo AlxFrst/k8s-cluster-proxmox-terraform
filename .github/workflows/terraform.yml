@@ -59,3 +59,20 @@ jobs:
             title: 'Terraform Plan',
             body: '${{ steps.terraform_plan.outputs.stdout }}'
           })
+  Send_issue:
+    #Send issue if there are changes
+    name: Send Issue
+    runs-on: ubuntu-latest
+    steps:
+    - name: Send GitHub Issue
+      if: ${{ steps.terraform_plan.outputs.stdout != '' }}
+      uses: actions/github-script@v4
+      with:
+        github-token: ${{ secrets.GH_TOKEN }}
+        script: |
+          github.issues.create({
+            repo: context.repo.repo,
+            owner: context.repo.owner,
+            title: 'Terraform Plan',
+            body: '${{ steps.terraform_plan.outputs.stdout }}'
+          })
