@@ -15,7 +15,7 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
-        terraform_version: 1.6.4
+        terraform_version: 1.7.3
 
     - name: Create temp_backend.tf from GitHub Secret
       run: |
