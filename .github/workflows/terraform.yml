@@ -19,7 +19,7 @@ jobs:
 
     - name: Create temp_backend.tf from GitHub Secret
       run: |
-        echo "${{ secrets.BACKEND_PROD }}"
+        echo "${{ secrets.BACKEND_PROD }}" | base64 --decode > temp_backend.tf
 
     - name: Terraform Init
       run: terraform init -backend-config="temp_backend.tf" -reconfigure
