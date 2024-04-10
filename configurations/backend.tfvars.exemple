@@ -1,0 +1,12 @@
+endpoint                    = "http://MINIO_SERVER_IP:9000" # Minio server IP
+bucket                      = "terraformspacex"             # Bucket name
+key                         = "terraform.tfstate"           # State file name
+access_key                  = "admin"                       # Access key
+secret_key                  = "xxxxxxxx"              # Secret key
+region                      = "us-east-1"                   # Region
+skip_credentials_validation = true                          # Skip AWS related checks and validations
+skip_requesting_account_id  = true                          # Skip requesting the account ID
+skip_metadata_api_check     = true                          # Skip metadata API check
+skip_region_validation      = true                          # Skip region validation
+use_path_style              = true                          # Use path style
+insecure                    = true                          # Insecure

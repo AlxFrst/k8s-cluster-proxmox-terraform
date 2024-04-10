@@ -108,7 +108,7 @@ The k8s-cluster-proxmox-terraform project orchestrates the deployment of a Kuber
 ### Before you begin
 Prepare a cloud-init template on your Proxmox server. You can use the following repository to create a cloud-init template: [Proxmox Cloud-Init Imager](https://github.com/AlxFrst/Proxmox-cloudinit-imager)
 
-###  Installation & Usage
+###  Installation & Usage with Terraform on your local environment
 
 <h4>From <code>source</code></h4>
 
@@ -127,22 +127,31 @@ Prepare a cloud-init template on your Proxmox server. You can use the following 
 > ```console
 > terraform init
 > ```
-> 4. Copy the `prod.tfvars.exemple` file to `prod.tfvars` and fill in the necessary configuration details.
+> 4. Copy the `secrets.tfvars.exemple` file to `secrets.tfvars` and fill in the necessary configuration details.
 > ```console
 > cp configurations/prod.tfvars.exemple configurations/prod.tfvars
 > ```
-> 5. Plan the Terraform deployment:
+> 5. Configure the configurations/prod.tfvars file with the necessary details.
+> 6. Plan the Terraform deployment:
 > ```console
 > terraform plan -var-file=configurations/prod.tfvars
 > ```
-> 6. If the plan looks good, apply the Terraform configuration:
+> 7. If the plan looks good, apply the Terraform configuration:
 > ```console
 > terraform apply -var-file=configurations/prod.tfvars
 > ```
-> 7. After the deployment is complete, access the Kubernetes cluster by the Load Balancer IP address and check the nodes:
+> 8. After the deployment is complete, access the Kubernetes cluster by the Load Balancer IP address and check the nodes:
 > ```console
 > kubectl get nodes
 > ```
+
+###  Installation & Usage with Terraform using Github Actions
+> 1. Fork the repository to your Github account.
+> 2. Create a new repository secret with the name `SECRETS_PROD` and the content of your `secrets.tfvars` in base64.
+> 3. Setup a MinOI server follwing the official documentation: [MinIO Quickstart Guide](https://docs.min.io/docs/minio-quickstart-guide.html)
+> 4. Create a new repository secret with the name `BACKEND_PROD` and the content of your `backend.tfvars` in base64 (replace the MinIO credentials with your own).
+> 5. Push a new commit to the repository to trigger the Github Actions workflow. 
+
 
 ---
 
