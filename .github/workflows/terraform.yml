@@ -46,33 +46,18 @@ jobs:
     - name: Terraform Plan
       run: terraform plan -var-file="secrets_prod.tfvars" -var-file="configurations/prod.tfvars"
 
-    # send github issue if terraform plan is not empty (i.e. if there are changes)
-    - name: Send GitHub Issue
-      if: ${{ steps.terraform_plan.outputs.stdout != '' }}
-      uses: actions/github-script@v4
+    - name: Check for changes
+      id: check_changes
+      run: |
+        if grep -q 'Plan:' plan-output.txt; then
+          echo "changes_detected=true" >> $GITHUB_ENV
+        fi
+
+    - name: Create Issue if changes are detected
+      if: env.changes_detected == 'true'
+      uses: peter-evans/create-issue-from-file@v4
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          github.issues.create({
-            repo: context.repo.repo,
-            owner: context.repo.owner,
-            title: 'Terraform Plan',
-            body: '${{ steps.terraform_plan.outputs.stdout }}'
-          })
-  Send_issue:
-    #Send issue if there are changes
-    name: Send Issue
-    runs-on: ubuntu-latest
-    steps:
-    - name: Send GitHub Issue
-      if: ${{ steps.terraform_plan.outputs.stdout != '' }}
-      uses: actions/github-script@v4
-      with:
-        github-token: ${{ secrets.GH_TOKEN }}
-        script: |
-          github.issues.create({
-            repo: context.repo.repo,
-            owner: context.repo.owner,
-            title: 'Terraform Plan',
-            body: '${{ steps.terraform_plan.outputs.stdout }}'
-          })
+        token: ${{ secrets.GH_TOKEN }}
+        title: "Des modifications Terraform détectées"
+        content-filepath: ./plan-output.txt
+        labels: modifications, terraform
