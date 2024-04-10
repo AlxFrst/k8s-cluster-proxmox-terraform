@@ -21,6 +21,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install openvpn -y
         sudo openvpn --config certificate.ovpn
+        echo "Connected to VPN"
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
