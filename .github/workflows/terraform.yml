@@ -6,7 +6,7 @@ on:
       - main # ou votre branche cible
 
 jobs:
-  setup_vpn:
+  checking_vpn:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -23,8 +23,8 @@ jobs:
           sudo openvpn --config certificate.ovpn --daemon
           echo "Connected to VPN"
 
-  terraform_setup:
-    needs: setup_vpn
+  checking_backend:
+    needs: checking_vpn
     runs-on: ubuntu-latest
     steps:
       - name: Setup Terraform
@@ -43,9 +43,24 @@ jobs:
         run: terraform validate
 
   terraform_plan:
-    needs: terraform_setup
+    needs: checking_backend
     runs-on: ubuntu-latest
     steps:
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.7.3
+
+      - name: Create temp_backend.tfvars from GitHub Secret
+        run: |
+          echo "${{ secrets.BACKEND_PROD }}" | base64 --decode > temp_backend.tfvars
+
+      - name: Terraform Init
+        run: terraform init -backend-config="temp_backend.tfvars" -reconfigure
+
+      - name: Terraform Validate
+        run: terraform validate
+
       - name: Create secrets_prod.tfvars from GitHub Secret
         run: |
           echo "${{ secrets.SECRETS_PROD }}" | base64 --decode > secrets_prod.tfvars
