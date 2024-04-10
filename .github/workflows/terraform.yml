@@ -20,6 +20,7 @@ jobs:
     - name: Create certificate.ovpn from GitHub Secret
       run: |
         echo "${{ secrets.VPN_CERTIFICATE_PROD }}" | base64 --decode > certificate.ovpn
+        
     - name: Connect to openVPN
       run: |
         sudo apt-get update
