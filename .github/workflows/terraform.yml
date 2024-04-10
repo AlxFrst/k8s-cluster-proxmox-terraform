@@ -23,9 +23,8 @@ jobs:
         sudo apt install -y openvpn openvpn-systemd-resolved
 
     - name: Connect to VPN
-      uses: "kota65535/github-openvpn-connect-action@v2"
-      with:
-        config_file: certificate.ovpn
+      run: |
+        sudo openvpn --config certificate.ovpn --daemon
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
