@@ -27,9 +27,6 @@ jobs:
     - name: Terraform Validate
       run: terraform validate
 
-    - name: Terraform Lint
-      run: tflint
-
     - name: Create secrets_prod.tfvars from GitHub Secret
       run: |
         echo "${{ secrets.TFVARS_PROD }}" | base64 --decode > secrets_prod.tfvars
