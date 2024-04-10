@@ -17,6 +17,16 @@ jobs:
       with:
         terraform_version: 1.7.3
 
+    - name: Create certificate.ovpn from GitHub Secret
+      run: |
+        echo "${{ secrets.VPN_CERTIFICATE_PROD }}" | base64 --decode > certificate.ovpn
+    - name: Connect to openVPN
+      run: |
+        sudo apt-get update
+        sudo apt-get install openvpn
+        sudo openvpn --config certificate.ovpn
+        
+
     - name: Create temp_backend.tfvars from GitHub Secret
       run: |
         echo "${{ secrets.BACKEND_PROD }}" | base64 --decode > temp_backend.tfvars

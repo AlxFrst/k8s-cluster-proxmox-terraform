@@ -134,11 +134,11 @@ Prepare a cloud-init template on your Proxmox server. You can use the following 
 > 5. Configure the configurations/prod.tfvars file with the necessary details.
 > 6. Plan the Terraform deployment:
 > ```console
-> terraform plan -var-file=configurations/prod.tfvars
+> terraform plan -var-file=configurations/prod.tfvars -var-file=configurations/secrets.tfvars
 > ```
 > 7. If the plan looks good, apply the Terraform configuration:
 > ```console
-> terraform apply -var-file=configurations/prod.tfvars
+> terraform apply -var-file=configurations/prod.tfvars -var-file=configurations/secrets.tfvars
 > ```
 > 8. After the deployment is complete, access the Kubernetes cluster by the Load Balancer IP address and check the nodes:
 > ```console
