@@ -13,7 +13,7 @@ vm_cloudinit_storage="local-lvm" # The storage where the cloud-init configuratio
 # Cluster configuration
 k8s_version= "1.28" # The version of Kubernetes
 k8s_master_nodes= 1 # Number of master nodes (the main node is always the first one and not included in this number, so if you want 3 master nodes, you should put 2 here)
-k8s_worker_nodes= 1 # Number of worker nodes (recommended 3 or more for production environments)
+k8s_worker_nodes= 0 # Number of worker nodes (recommended 3 or more for production environments)
 k8s_storage_nodes= 1 # Number of storage nodes (if you don't want storage nodes, put 0 here)
 k8s_pod_network_cidr= "10.244.0.0" # The CIDR notation of the pod network
 
