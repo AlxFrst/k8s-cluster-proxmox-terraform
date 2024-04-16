@@ -40,7 +40,7 @@ jobs:
       run: terraform init -backend-config="temp_backend.tfvars" -reconfigure
 
     - name: Terraform Validate
-      run: terraform validate -var-file="configurations/prod.tfvars"
+      run: terraform validate
 
 
     - name: Create secrets_prod.tfvars from GitHub Secret
