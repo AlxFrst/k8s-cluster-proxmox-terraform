@@ -50,5 +50,5 @@ jobs:
     - name: Terraform Plan
       run: terraform plan -var-file="secrets_prod.tfvars" -var-file="configurations/prod.tfvars"
 
-    - name: Terraform Destroy
-      run: terraform destroy -auto-approve -var-file="secrets_prod.tfvars" -var-file="configurations/prod.tfvars"
+    - name: Terraform Apply
+      run: terraform apply -auto-approve -var-file="secrets_prod.tfvars" -var-file="configurations/prod.tfvars"
