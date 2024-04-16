@@ -23,6 +23,10 @@ jobs:
         sudo openvpn --config certificate.ovpn --daemon
         echo "Connected to VPN"
 
+    - name: Wait for a VPN connection
+      timeout-minutes: 1
+      run: until ping -c1 192.168.1.1; do sleep 1; done
+
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
