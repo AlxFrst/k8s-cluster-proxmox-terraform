@@ -16,7 +16,7 @@ k8s_master_nodes= 2 # Number of master nodes (the main node is always the first 
 k8s_worker_nodes= 3 # Number of worker nodes (recommended 3 or more for production environments)
 k8s_storage_nodes= 1 # Number of storage nodes (if you don't want storage nodes, put 0 here)
 k8s_pod_network_cidr= "10.244.0.0" # The CIDR notation of the pod network
-metallb_ip_range= "192.168.1.200-192.168.1.230" # The IP range for MetalLB
+metallb_ip_range= "192.168.1.160-192.168.1.180" # The IP range for MetalLB
 
 # Load balancer configuration
 load_balancer_cpu= 2 # Number of CPUs

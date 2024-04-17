@@ -33,6 +33,17 @@ resource "proxmox_vm_qemu" "k8s_loadbalancer" {
     bridge = var.proxmox_bridge_name
   }
 
+  provisioner "file" {
+    connection {
+      type        = "ssh"
+      user        = var.vm_user
+      private_key = var.ssh_private_key
+      host        = self.ssh_host
+    }
+    source      = "assets/metallb-config.yaml"
+    destination = "/tmp/metallb-config.yaml"
+  }
+
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
@@ -68,6 +79,8 @@ resource "proxmox_vm_qemu" "k8s_loadbalancer" {
       "sudo mkdir apps",
       "sudo mkdir tools",
       "sudo mkdir tools/cluster",
+      "sudo mkdir tools/metallb",
+      "sudo mv /tmp/metallb-config.yaml tools/metallb/metallb-config.yaml",
       "sudo mkdir .kube",
       "sudo chown -R ${var.vm_user}:${var.vm_user} .kube",
       "sudo chown -R ${var.vm_user}:${var.vm_user} apps",
