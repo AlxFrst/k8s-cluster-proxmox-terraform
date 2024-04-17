@@ -114,6 +114,7 @@ resource "proxmox_vm_qemu" "k8s_master_main" {
       "sudo mv /tmp/metallb-config.yaml /home/${var.vm_user}/tools/metallb/metallb-config.yaml",
       "sudo sed -i 's/#RANGE_IP#/${var.metallb_ip_range}/g' /home/${var.vm_user}/tools/metallb/metallb-config.yaml",
       "kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.4/config/manifests/metallb-native.yaml",
+      "kubectl apply -f /home/${var.vm_user}/tools/metallb/metallb-config.yaml",
 
       # Deploying argocd
       "kubectl create namespace argocd",
