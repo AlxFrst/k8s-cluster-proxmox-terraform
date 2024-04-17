@@ -34,6 +34,11 @@ variable "proxmox_tls_insecure" {
   type        = bool
 }
 
+variable "metallb_ip_range" {
+  description = "IP range for MetalLB."
+  type        = string
+}
+
 variable "ip_address_start" {
   description = "Starting IP address for the VMs."
   type        = string

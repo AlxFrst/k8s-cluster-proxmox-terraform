@@ -44,6 +44,17 @@ resource "proxmox_vm_qemu" "k8s_master_main" {
     destination = "/tmp/joinExtractor.py"
   }
 
+  provisioner "file" {
+    connection {
+      type        = "ssh"
+      user        = var.vm_user
+      private_key = var.ssh_private_key
+      host        = self.ssh_host
+    }
+    source      = "assets/metallb-config.yaml"
+    destination = "/tmp/metallb-config.yaml"
+  }
+
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
@@ -97,6 +108,18 @@ resource "proxmox_vm_qemu" "k8s_master_main" {
       "curl https://raw.githubusercontent.com/projectcalico/calico/v3.27.3/manifests/custom-resources.yaml -O",
       "sudo sed -i 's/192.168.0.0/${var.k8s_pod_network_cidr}/g' custom-resources.yaml",
       "kubectl create -f custom-resources.yaml",
+
+      # Deploying metallb
+      "mkdir -p /home/${var.vm_user}/tools/metallb",
+      "sudo mv /tmp/metallb-config.yaml /home/${var.vm_user}/tools/metallb/metallb-config.yaml",
+      "sudo sed -i 's/#RANGE_IP#/${var.metallb_ip_range}/g' /home/${var.vm_user}/tools/metallb/metallb-config.yaml",
+      "kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.4/config/manifests/metallb-native.yaml",
+
+      # Deploying argocd
+      "kubectl create namespace argocd",
+      "kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml",
+      "kubectl patch svc argocd-server -n argocd -p '{\"spec\": {\"type\": \"LoadBalancer\"}}'",
+      
     ]
   }
 }
