@@ -1,3 +1,8 @@
+# Proxmox variables
+proxmox_node_name="rocket" # The name of the Proxmox node
+proxmox_bridge_name="vmbr0" # The name of the Proxmox bridge
+proxmox_tls_insecure=true # Whether to ignore TLS errors
+
 # Network variables
 ip_address_start="192.168.1" # The first three octets of the IP address
 ip_address_gateway="192.168.1.1" # The gateway IP address
