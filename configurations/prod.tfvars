@@ -19,7 +19,7 @@ vm_cloudinit_storage="local-lvm" # The storage where the cloud-init configuratio
 k8s_version= "1.28" # The version of Kubernetes
 k8s_master_nodes= 2 # Number of master nodes (the main node is always the first one and not included in this number, so if you want 3 master nodes, you should put 2 here)
 k8s_worker_nodes= 10 # Number of worker nodes (recommended 3 or more for production environments)
-k8s_storage_nodes= 4 # Number of storage nodes (if you don't want storage nodes, put 0 here)
+k8s_storage_nodes= 2 # Number of storage nodes (if you don't want storage nodes, put 0 here)
 k8s_pod_network_cidr= "10.244.0.0" # The CIDR notation of the pod network
 metallb_ip_range= "192.168.1.160-192.168.1.180" # The IP range for MetalLB
 
@@ -31,7 +31,7 @@ load_balancer_disk= 30 # Disk size in GB
 load_balancer_ip= 121 # IP address of the load balancer (this will be 192.168.1.121/24)
 
 # Master node configuration
-master_node_cpu= 4# Number of CPUs
+master_node_cpu= 2# Number of CPUs
 master_node_socket= 1 # Number of sockets
 master_node_memory= 4096# Memory in MB
 master_node_disk= 30 # Disk size in GB
@@ -40,7 +40,7 @@ master_node_ip_start= 122 # IP address of the first master node (this will be 19
 # Worker node configuration
 worker_node_cpu= 4 # Number of CPUs
 worker_node_socket= 1 # Number of sockets
-worker_node_memory= 4096 # Memory in MB
+worker_node_memory= 8192 # Memory in MB
 worker_node_disk= 30 # Disk size in GB
 worker_node_ip_start= 130 # IP address of the first worker node (this will be 192.168.1.130/24, the next one will be 192.168.1.131/24, and so on)
 
